@@ -60,3 +60,8 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# Text editors project files, caches etc
+*.sublime-project
+*.sublime-workspace
+*.sublime-cache
