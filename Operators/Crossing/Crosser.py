@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Selection(ABC):
+class Crosser(ABC):
     """docstring"""
 
     def __init__(self):
