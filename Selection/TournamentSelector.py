@@ -1,8 +1,7 @@
-from Selection.Selector import Selector
-from Population.Population import Population
-
 from random import randrange
 
+from Selection.Selector import Selector
+from Population.Population import Population
 
 class TournamentSelector(Selector):
     """docstring"""
@@ -15,10 +14,11 @@ class TournamentSelector(Selector):
 
         if elite > 0:
             for i in range(elite):
-                tournament.add_unit(population.best_unit(i))
+                tournament.addUnit(population.bestUnit(i))
+                # population.removeUnit() ?
 
         while len(tournament.units) < size:
             position = randrange(size)
-            tournament.add_unit(population.units[position])
+            tournament.addUnit(population.units[position])
 
-        return tournament.best_unit(0)
+        return tournament.bestUnit(0)

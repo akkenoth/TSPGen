@@ -1,6 +1,5 @@
 from itertools import islice
 
-
 class Unit(object):
     """docstring"""
 
@@ -13,7 +12,7 @@ class Unit(object):
         self.path = path
         self.size = size
 
-    def calc_length(self):
+    def calcLength(self):
         if len(self.path) == self.size:
 
             edges = zip(islice(self.path, 1, None), self.path)
@@ -25,7 +24,7 @@ class Unit(object):
         else:
             pass
 
-    def calc_fitness(self):
+    def calcFitness(self):
         if self.length > 0:
             self.fitness = 1/self.length
         else:

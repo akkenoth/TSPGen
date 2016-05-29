@@ -1,5 +1,4 @@
-from Population.Unit.Unit import Unit
-
+from Population.Unit import Unit
 
 class Population(object):
     """docstring"""
@@ -7,7 +6,7 @@ class Population(object):
     units = []
     size = 0
 
-    def __init__(self, size, units=None):
+    def __init__(self, size, units = None):
         if units is None:
             self.units = []
         else:
@@ -15,7 +14,7 @@ class Population(object):
 
         self.size = size
 
-    def add_unit(self, unit):
+    def addUnit(self, unit):
         if len(self.units) < self.size:
             if unit not in self.units:
                 self.units.append(unit)
@@ -24,9 +23,10 @@ class Population(object):
         else:
             pass
 
-    def best_unit(self, position):
+    def bestUnit(self, position):
         if position < self.size:
-            self.units.sort(key=Unit.calc_fitness)
+            # Perhaps move to addUnit()? Or add boolean 'sorted' flag and sort on demand
+            self.units.sort(key=Unit.calcFitness)
             return self.units[position]
         else:
             pass
