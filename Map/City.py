@@ -34,4 +34,3 @@ class City(object):
 		distX = self.positionX - city.positionX
 		distY = self.positionY - city.positionY
 		return sqrt(distX**2 + distY**2)
-	#TODO
