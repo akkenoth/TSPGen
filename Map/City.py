@@ -1,3 +1,5 @@
+from math import sqrt
+
 class City(object):
 	"""docstring for City"""
 
@@ -28,4 +30,8 @@ class City(object):
 	def hasConnection(self, index):
 		return index in self.connections
 
+	def distanceTo(self, city):
+		distX = self.positionX - city.positionX
+		distY = self.positionY - city.positionY
+		return sqrt(distX**2 + distY**2)
 	#TODO
