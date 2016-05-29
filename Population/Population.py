@@ -1,4 +1,4 @@
-from Population.Unit import Unit
+from Population.Unit.Unit import Unit
 
 
 class Population(object):
@@ -26,7 +26,7 @@ class Population(object):
 
     def best_unit(self, position):
         if position < self.size:
-            self.units.sort(key=Unit.Unit.calc_fitness)
+            self.units.sort(key=Unit.calc_fitness)
             return self.units[position]
         else:
             pass
