@@ -15,10 +15,10 @@ class TournamentSelector(Selector):
 
         if elite > 0:
             for i in range(elite):
-                tournament.addUnit(population.bestUnit(i))
+                tournament.add_unit(population.best_unit(i))
 
         while len(tournament.units) < size:
             position = randrange(size)
-            tournament.addUnit(population.units[position])
+            tournament.add_unit(population.units[position])
 
-        return tournament.bestUnit(0)
+        return tournament.best_unit(0)

@@ -10,7 +10,7 @@ class EdgeCrosser(Crosser):
     def __init__(self):
         super().__init__()
 
-    def make(self, population, size, elite):
+    def make(self):
         pass
 
     def make_adjacency_list(self):

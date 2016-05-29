@@ -12,11 +12,10 @@ class Population(object):
             self.units = []
         else:
             self.units = units
-            self.units.sort(key=Unit.Unit.calcFitness)
 
         self.size = size
 
-    def addUnit(self, unit):
+    def add_unit(self, unit):
         if len(self.units) < self.size:
             if unit not in self.units:
                 self.units.append(unit)
@@ -25,8 +24,9 @@ class Population(object):
         else:
             pass
 
-    def bestUnit(self, position):
+    def best_unit(self, position):
         if position < self.size:
+            self.units.sort(key=Unit.Unit.calc_fitness)
             return self.units[position]
         else:
             pass

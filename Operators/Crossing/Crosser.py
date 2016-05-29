@@ -8,5 +8,5 @@ class Crosser(ABC):
         pass
 
     @abstractmethod
-    def make(self, population, size, elitism):
+    def make(self):
         pass
