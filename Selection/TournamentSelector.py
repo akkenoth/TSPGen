@@ -1,10 +1,10 @@
-from Selection.Selection import Selection
+from Selection.Selector import Selector
 from Population.Population import Population
 
 from random import randrange
 
 
-class TournamentSelection(Selection):
+class TournamentSelector(Selector):
     """docstring"""
 
     def __init__(self):

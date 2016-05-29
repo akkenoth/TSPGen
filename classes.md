@@ -12,10 +12,10 @@
 		* *Mutator* (Abstract?)
 		* MutatorA [Operators.Mutation.Mutator(?)]
 		* MutatorB [Operators.Mutation.Mutator(?)]
-	* Selection
+	* Selector
 		* *Selector* (Abstract?)
-		* SelectorA [Operators.Selection.Selector(?)]
-		* SelectorB [Operators.Selection.Selector(?)]
+		* SelectorA [Operators.Selector.Selector(?)]
+		* SelectorB [Operators.Selector.Selector(?)]
 * Population
 	* Population [Population.Unit]
 	* Unit
