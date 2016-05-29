@@ -1,10 +1,8 @@
 import sys
 
-from Map import Map
-
-from Map.City import City
+from Map.Map import Map
 from Population.Population import Population
-from Population.Unit.Unit import Unit
+from Population.Unit import Unit
 from Selection.TournamentSelector import TournamentSelector
 
 def main():
