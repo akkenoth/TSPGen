@@ -1,31 +1,18 @@
-from itertools import islice
-
 class Unit(object):
-    """docstring"""
+    """docstring for Population/Unit"""
 
-    path = []
-    size = 0
-    length = 0.0
-    fitness = 0.0
+    def __init__(self, problemMap, path):
+        #TODO: add parameter checks
 
-    def __init__(self, size, path):
+        self.map = problemMap
         self.path = path
-        self.size = size
+        self.length = 0.0
+        self.fitness = 0.0
 
-    def calcLength(self):
-        if len(self.path) == self.size:
+        nextCity = self.map.cities[self.path[0]]
+        for i in range(-1, len(self.path)-1):
+            currentCity = nextCity
+            nextCity = self.map.cities[self.path[i+1]]
+            self.length += currentCity.getDistanceTo(nextCity)
 
-            edges = zip(islice(self.path, 1, None), self.path)
-
-            for one, two in edges:
-                self.length += one.distanceTo(two)
-
-            self.length += self.path[0].distanceTo(self.path[len(self.path) - 1])
-        else:
-            pass
-
-    def calcFitness(self):
-        if self.length > 0:
-            self.fitness = 1/self.length
-        else:
-            pass
+        self.fitness = 1.0 / self.length
