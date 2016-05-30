@@ -3,9 +3,6 @@ from Population.Unit import Unit
 class Population(object):
     """docstring"""
 
-    units = []
-    size = 0
-
     def __init__(self, size, units = None):
         if units is None:
             self.units = []
@@ -26,7 +23,7 @@ class Population(object):
     def bestUnit(self, position):
         if position < self.size:
             # Perhaps move to addUnit()? Or add boolean 'sorted' flag and sort on demand
-            self.units.sort(key=Unit.calcFitness)
+            self.units.sort(key = Unit.calcFitness)
             return self.units[position]
         else:
             pass
