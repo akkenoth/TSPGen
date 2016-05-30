@@ -1,5 +1,5 @@
 from random import uniform
-from Map.City import City
+from Map import City
 
 class Map(object):
 	"""Docstring for Map"""

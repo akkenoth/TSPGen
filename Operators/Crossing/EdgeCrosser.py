@@ -1,7 +1,7 @@
 from random import randrange
 
-from Operators.Crossing.Crosser import Crosser
-from Population.Population import Population
+from Operators.Crossing import Crosser
+from Population import Population
 
 class EdgeCrosser(Crosser):
     """docstring"""
