@@ -1,9 +1,9 @@
 import sys
 
-from Map.Map import Map
-from Population.Population import Population
-from Population.Unit import Unit
-from Selection.TournamentSelector import TournamentSelector
+from Map import Map
+from Population import Population
+from Population import Unit
+from Selection import TournamentSelector
 
 def main():
 	problemMap = Map.generateCNN(50, 4)
