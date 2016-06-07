@@ -7,5 +7,5 @@ class Crosser(ABC):
         pass
 
     @abstractmethod
-    def make(self):
+    def make(self, problemMap, units):
         pass
