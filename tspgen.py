@@ -4,7 +4,6 @@ from Map import Map
 from Population import Population
 from Population import Unit
 from Selection import TournamentSelector
-from Operators.Crossing import EdgeCrosser
 
 def main():
 	problemMap = Map.generateCNN(50, 4)
