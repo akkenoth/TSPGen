@@ -44,11 +44,12 @@ class DisplacementMutator(Mutator):
                     tmp = path[begin:end+1]
                     path[begin] = endRight
                     path = path[:begin+1] + tmp
+                
+                    begin += 1
+                    end   += 1
                 else:
                     break
 
-                begin += 1
-                end   += 1
 
         return path
 
