@@ -14,60 +14,67 @@ class EdgeCrosser(Crosser):
         :param problemMap:
         :param units:
         :return unit:
+        TODO: make static?
         """
-        paths = []
-
-        for i in range(len(units)):
-            paths.append(units[i].path)
+        paths = [unit.path for unit in units]
 
         adjList = self.makeAdjacencyList(problemMap, paths)
         path = self.makePath(adjList)
 
-        # verify obtained path
+        ##TODO: verify obtained path
 
-        unit = Unit(problemMap, path)
-        return unit
+        return Unit(problemMap, path)
 
     def makePath(self, adjList):
         """
         :param adjList: adjacency list
         :return path: new path
+        TODO: make it back up 1 step if no choice is possible instead of starting all over - see note in Population.Unit
         """
-        path = []
-        src = 0
 
-        while(len(path) != len(adjList)):
-            path.append(src)
+        while True:
+            src = 0
+            path = []
 
-            srcList = adjList[src][:]
-            curr = random.choice(srcList)
+            while len(path) != len(adjList):
+                path.append(src)
 
-            try:
+                srcList = adjList[src][:]
+                curr = random.choice(srcList)
+
                 while curr in path:
                     srcList.remove(curr)
+                    if len(srcList) == 0:
+                        break
                     curr = random.choice(srcList)
-            except IndexError:
-                raise IndexError("Cannot build a path.")
+                if len(srcList) == 0:
+                    break
 
-            src = curr
+                src = curr
+            if len(path) != len(adjList):
+                continue
 
-        return path
+            return path
 
     def makeAdjacencyList(self, problemMap, paths):
         """
         :param problemMap:
         :param paths: list of paths from Units chosen for crossing
-        :return adjList: adjacency list
+        :return adjList: adjacency list (object mapping city index -> list of adjacencies)
         """
 
         adjList = {i.index: [] for i in problemMap.cities}
+        #should be equivalent to this matrix:
+        #adjList = [[] for i in range(problemMap.size)]
 
-        for i in range(0, len(paths)):
-            path = paths[i]
-            for j in range(0, len(path)):
-                if path[j-1] not in adjList[path[j]]:
-                    adjList[path[j]].append(path[j-1])
-                if path[(j+1) % len(path)] not in adjList[path[j]]:
-                    adjList[path[j]].append(path[(j+1) % len(path)])
+        for path in paths:
+            for j in range(len(path)):
+                index = path[j]
+                prevIndex = path[j-1]
+                nextIndex = path[(j+1) % len(path)]
+                if prevIndex not in adjList[index]:
+                    adjList[index].append(prevIndex)
+                if nextIndex not in adjList[index]:
+                    adjList[index].append(nextIndex)
 
         return adjList
