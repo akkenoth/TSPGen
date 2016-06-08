@@ -1,7 +1,7 @@
 import random
 
-from Selection.Selector import Selector
-from Population.Population import Population
+from Selection import Selector
+from Population import Population
 
 class TournamentSelector(Selector):
     """docstring"""
