@@ -47,7 +47,7 @@ class EdgeCrosser(Crosser):
                     srcList.remove(curr)
                     curr = random.choice(srcList)
             except IndexError:
-                raise Exception("Cannot build a path.")
+                raise IndexError("Cannot build a path.")
 
             src = curr
 

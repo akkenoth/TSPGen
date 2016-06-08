@@ -42,6 +42,6 @@ class TournamentSelector(Selector):
                 units.remove(unit)
                 tournament.addUnit(unit)
         except IndexError:
-            raise Exception("Tournament size set greater than population size.")
+            raise IndexError("Tournament size set greater than population size.")
 
         return tournament.bestUnit(0)
