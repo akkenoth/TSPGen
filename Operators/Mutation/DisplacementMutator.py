@@ -34,8 +34,11 @@ class DisplacementMutator(Mutator):
             pass
 
         # sub-path will be inserted after insert element
-        # insert bylby wartoscia wylosowany z sumy przedzialow <0, beginLeft - 1) + <endRight, len(path) - 1 )
-        insert = -1
+        # make sure the same insert is not being chosen twice
+        leftInterval = list(range(0, beginLeft))
+        rightInterval = list(range(endRight, len(path)))
+        possibleInserts = leftInterval + rightInterval
+        insert = random.choice(possibleInserts)
 
         insertRight = path[(insert + 1) % len(path)]
 
@@ -44,6 +47,7 @@ class DisplacementMutator(Mutator):
             # OK
             pass
         else:
+            # such insertion is not allowed for mutation
             pass
 
 
