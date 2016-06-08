@@ -24,7 +24,7 @@ class Unit(object):
         """
         Generate an unit by starting from city0 and randomly selecting unused neighbour to connect to.
         If there is no such one, begin anew (very inefficient!).
-        TODO: when there are no unused neighbours, go back one step - this should vastly improve generation time.
+        TODO: when there are no unused neighbours, go back one step - this should vastly improve generation time. Aka do depth-search.
 
         """
         while True:
