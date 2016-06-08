@@ -14,41 +14,43 @@ class DisplacementMutator(Mutator):
         pass
 
     def findValidMutation(self, problemMap, unit):
-        path = unit.path[:]
+        """
 
-        begin = random.randrange(len(path))
+            :param problemMap:
+            :return unit:
+        """
+        path   = unit.path[:]
+        cities = problemMap.cities
+        found  = False
+        tries  = 0
 
-        if begin > 1:
-            end = random.randrange(begin, len(path))
-        else:
-            end = random.randrange(begin, len(path) - 2 + begin)
+        while not found and tries < len(path)**3:
+            tries += 1
+            begin  = random.randrange(1    , len(path) - 1)
+            end    = random.randrange(begin, len(path) - 1)
+            shifts = random.randrange(len(path) - end) / 2 + 1    # number of  subpath right shifts
 
-        beginLeft = path[begin - 1]
-        endRight = path[(end + 1) % len(path)]
+            # try shift subpath max to the right
+            for i in range(shifts):
+                beginLeft = path[begin - 1]
+                endRight  = path[(end + 1) % len(path)]
 
-        if problemMap.cities[beginLeft].isConnectedTo(problemMap.cities[endRight]):
-            # OK
-            pass
-        else:
-            # such a path is not allowed for mutation
-            pass
+                # check if three conditions needed to shift are true  - if not, further shifting is impossible
+                if cities[beginLeft].isConnectedTo(cities[endRight]) \
+                    and cities[endRight].isConnectedTo(cities[path[begin]]) \
+                    and cities[path[end]].isConnectedTo(cities[(end + 2) % len(path)]):
+                    # (jeśli macie pomysł jak to zrobić ładniej to śmiało)
+                    found = True
+                    tmp = path[begin:end+1]
+                    path[begin] = endRight
+                    path = path[:begin+1] + tmp
+                else:
+                    break
 
-        # sub-path will be inserted after insert element
-        # make sure the same insert is not being chosen twice
-        leftInterval = list(range(0, beginLeft))
-        rightInterval = list(range(endRight, len(path)))
-        possibleInserts = leftInterval + rightInterval
-        insert = random.choice(possibleInserts)
+                begin += 1
+                end   += 1
 
-        insertRight = path[(insert + 1) % len(path)]
-
-        if problemMap.cities[insert].isConnectedTo(problemMap.cities[begin]) \
-                and problemMap.cities[insertRight].isConnectedTo(problemMap.cities[end]):
-            # OK
-            pass
-        else:
-            # such insertion is not allowed for mutation
-            pass
+        return path
 
 
 
