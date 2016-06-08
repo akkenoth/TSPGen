@@ -7,5 +7,5 @@ class Selector(ABC):
         pass
 
     @abstractmethod
-    def make(self, population, size, elitism):
+    def make(self, population, selectSize, tSize):
         pass

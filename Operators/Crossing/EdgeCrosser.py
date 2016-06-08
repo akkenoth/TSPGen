@@ -23,6 +23,8 @@ class EdgeCrosser(Crosser):
         adjList = self.makeAdjacencyList(problemMap, paths)
         path = self.makePath(adjList)
 
+        # verify obtained path
+
         unit = Unit(problemMap, path)
         return unit
 
@@ -45,9 +47,7 @@ class EdgeCrosser(Crosser):
                     srcList.remove(curr)
                     curr = random.choice(srcList)
             except IndexError:
-                allNodes = set(adjList.keys())
-                notInPath = allNodes.difference(path)
-                curr = random.choice(notInPath)
+                raise Exception("Cannot build a path.")
 
             src = curr
 
