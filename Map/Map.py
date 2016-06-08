@@ -14,6 +14,10 @@ class Map(object):
 		Generate and connect nearest neighbours.
 		Generates map with <size> cities on it, each connected to <connections> nearest neighbours.
 		Notice that it doesn't ensure that each node (city) will have exactly <connections> connections, but rather at least that much.
+		:param connections: minimum number of neighbours connected to a city
+		:return: generated maps
+		:type connections: int
+		:rtype: Map
 		"""
 
 		# Create empty map
@@ -23,6 +27,7 @@ class Map(object):
 		for i in range(size):
 			newCity = City(uniform(0.0, 1.0), uniform(0.0, 1.0))
 			newMap.addCity(newCity)
+		newMap.size = size
 
 		# Generate connections
 		for city in newMap.cities:
