@@ -1,4 +1,4 @@
-from Population.Unit import Unit
+from Population import Unit
 
 class Population(object):
     """docstring"""
