@@ -26,11 +26,10 @@ class Population(object):
             pass
 
     def bestUnit(self, position):
-        if position < self.size:
-            if self.sorted == False:
-                self.units.sort(key=Unit.calcFitness)
-                self.sorted = True;
+        if position >= self.size:
+            position = self.size - 1
+        if self.sorted == False:
+            self.units.sort(key = Unit.calcFitness)
+            self.sorted = True
 
-            return self.units[position]
-        else:
-            pass
+        return self.units[position]
