@@ -1,4 +1,6 @@
 from random import uniform
+import json
+
 from Map import City
 
 class Map(object):
@@ -7,6 +9,14 @@ class Map(object):
 	def __init__(self):
 		self.size = 0
 		self.cities = []
+
+	def addCity(self, newCity):
+		if not isinstance(newCity, City):
+			raise Exception("argument is not a City!")
+		if not newCity in self.cities:
+			newCity.setIndex(self.size)
+			self.size += 1
+			self.cities.append(newCity)
 
 	@staticmethod
 	def generateCNN(size, connections):
@@ -41,12 +51,40 @@ class Map(object):
 		# Return created map
 		return newMap
 
-	def addCity(self, newCity):
-		if not isinstance(newCity, City):
-			raise Exception("argument is not a City!")
-		if not newCity in self.cities:
-			newCity.setIndex(self.size)
-			self.size += 1
-			self.cities.append(newCity)
+	@staticmethod
+	def readFromFile(filename):
+		"""
+		Read map from a file (JSON format)
+		"""
+		data = None
+		try:
+			with open(filename, 'r') as data_raw:
+				data = json.load(data_raw)
+		except IOError as error:
+			print("[ERROR] Cannot open file {0} (IOError)".format(filename))
+			return None
+		# except json.JSONDecodeError as error:
+		except ValueError as error:
+			print("[ERROR] Cannot parse file {0} (JSONDecodeError)".format(filename))
+			return None
+		if not data["cities"] or not data["size"]:
+			print("[ERROR] Invalid structure (1).")
+			return None
+		newMap = Map()
+		newMapSize = int(data["size"])
+		try:
+			for i in range(newMapSize):
+				cityData = data["cities"]["%d" % i]
+				newCity = City(float(cityData["positionX"]), float(cityData["positionY"]))
+				newCity.setIndex(i)
+				for c in cityData["connections"]:
+					neighbour = int(c)
+					if neighbour < newMapSize:
+						newCity.connections.append(int(c))
+				newMap.addCity(newCity)
+		except KeyError:
+			print("[ERROR] Invalid structure (2).")
+			return None
+		return newMap
 
 	#TODO map verification function, reading/saving from/to file, getDistance etc etc

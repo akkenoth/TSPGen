@@ -11,10 +11,16 @@ from Selection import TournamentSelector
 
 def main():
 	problemMap = Map.generateCNN(50, 15)
-	print("Generated %d cities:" % problemMap.size)
-	for city in problemMap.cities:
-		print("City " + str(city) + ", connections to: " + str(city.connections))
+	problemMap2 = Map.readFromFile("samples/sampleMap.json")
+	# print("Generated %d cities:" % problemMap.size)
+	# for city in problemMap.cities:
+	# 	print("City " + str(city) + ", connections to: " + str(city.connections))
+	# print("Read %d cities from file:" % problemMap2.size)
+	# for city in problemMap2.cities:
+	# 	print("City " + str(city) + ", connections to: " + str(city.connections))
 
+
+	print("Map1:")
 	print("Generated units:")
 	unit1 = Unit.generateUnitRand(problemMap)
 	print(unit1.path)
@@ -35,6 +41,28 @@ def main():
 	inversionMutator = InversionMutator()
 	unit5 = inversionMutator.make(problemMap, unit3)
 	print(unit5.path)
+
+	print("Map2:")
+	print("Generated units:")
+	unit6 = Unit.generateUnitRand(problemMap2)
+	print(unit6.path)
+	unit7 = Unit.generateUnitRand(problemMap2)
+	print(unit7.path)
+
+	print("Child of generated units:")
+	crosser = EdgeCrosser()
+	unit8 = crosser.make(problemMap, [unit6, unit7])
+	print(unit8.path)
+
+	print("Displacement mutated child:")
+	displacementMutator = DisplacementMutator()
+	unit9 = displacementMutator.make(problemMap, unit8)
+	print(unit9.path)
+
+	print("Inversion mutated child:")
+	inversionMutator = InversionMutator()
+	unit10 = inversionMutator.make(problemMap, unit8)
+	print(unit10.path)
 
 	sys.exit(0)
 
