@@ -10,15 +10,15 @@ from Population import Unit
 from Selection import TournamentSelector
 
 def main():
-	problemMap = Map.generateCNN(50, 10)
+	problemMap = Map.generateCNN(50, 15)
 	print("Generated %d cities:" % problemMap.size)
 	for city in problemMap.cities:
 		print("City " + str(city) + ", connections to: " + str(city.connections))
 
 	print("Generated units:")
-	unit1 = Unit.generateUnit(problemMap)
+	unit1 = Unit.generateUnitRand(problemMap)
 	print(unit1.path)
-	unit2 = Unit.generateUnit(problemMap)
+	unit2 = Unit.generateUnitRand(problemMap)
 	print(unit2.path)
 
 	print("Child of generated units:")
