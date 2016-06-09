@@ -19,7 +19,7 @@ class TournamentSelector(Selector):
         """
         selection = []
 
-        while len(selection < selectSize):
+        while len(selection) < selectSize:
             # for now it is possible to pick the same unit more than one time
             unit = self.make_single(population, tSize)
             selection.append(unit)
