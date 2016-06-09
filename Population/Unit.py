@@ -57,16 +57,12 @@ class Unit(object):
 
             if len(path) == targetLength:
                 firstCity = problemMap.cities[path[0]]
-                print("found?" + str(path) + " | "+ str(firstCity.isConnectedTo(currentCity)))
                 if firstCity.isConnectedTo(currentCity):
                     return path
                 else:
                     return None
 
             usableNeighbours = [i for i in currentCity.connections if not i in path]
-
-            if len(path) > 48:
-                print(str(len(path)) + ": " + str(path) + " (" + str(usableNeighbours) + ")")
 
             selectedNeighbour = -1
             newPath = None
@@ -80,5 +76,3 @@ class Unit(object):
             return newPath
 
         return Unit(_generatePath(problemMap, [0], problemMap.size))
-
-    @staticmethod
