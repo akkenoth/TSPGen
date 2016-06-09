@@ -1,5 +1,4 @@
 import random
-import itertools
 
 from Operators.Mutation import Mutator
 from Map import City
@@ -17,14 +16,13 @@ class DisplacementMutator(Mutator):
         :return unit:
         """
 
-        path = unit.path[:]
         pathLength = len(unit.path)
         found = False
-        tries = 0
+        #tries = 0
 
         #TODO: explain what the 'tries' condition is
-        while not found and tries < pathLength**3:
-            tries += 1
+        while not found: # and tries < pathLength**3:
+            #tries += 1
             # get a random place where to begin the subpath to displace
             begin = random.randrange(pathLength)
             # get a random length (max half the length of path - anything more would be equal to displacing the rest of path)
