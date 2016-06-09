@@ -3,6 +3,9 @@ from Population import Unit
 class Population(object):
     """docstring"""
 
+    elitism = False
+    mutationRate = 0.1
+
     def __init__(self, size, units = None):
         if units is None:
             self.units = []
