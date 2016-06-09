@@ -20,11 +20,10 @@ class Unit(object):
         self.fitness = 1.0 / self.length
 
     @staticmethod
-    def generateUnit(problemMap):
+    def generateUnitRand(problemMap):
         """
         Generate an unit by starting from city0 and randomly selecting unused neighbour to connect to.
-        If there is no such one, begin anew (very inefficient!).
-        TODO: when there are no unused neighbours, go back one step - this should vastly improve generation time. Aka do depth-search.
+        If there is no such one, begin anew (random is quite inefficient).
 
         """
         while True:
@@ -44,3 +43,42 @@ class Unit(object):
             if not firstCity.isConnectedTo(lastCity):
                 continue
             return Unit(problemMap, path)
+
+    @staticmethod
+    def generateUnitDS(problemMap):
+        """
+        Generate an unit by doing random choice depth search.
+        Sloooooow.
+        TODO: make it work in finite time by applying some equivalent of alpha-beta for depth-search or something else.
+        """
+
+        def _generatePath(problemMap, path, targetLength):
+            currentCity = problemMap.cities[path[-1]]
+
+            if len(path) == targetLength:
+                firstCity = problemMap.cities[path[0]]
+                print("found?" + str(path) + " | "+ str(firstCity.isConnectedTo(currentCity)))
+                if firstCity.isConnectedTo(currentCity):
+                    return path
+                else:
+                    return None
+
+            usableNeighbours = [i for i in currentCity.connections if not i in path]
+
+            if len(path) > 48:
+                print(str(len(path)) + ": " + str(path) + " (" + str(usableNeighbours) + ")")
+
+            selectedNeighbour = -1
+            newPath = None
+            while len(usableNeighbours) > 0:
+                neighbour = choice(usableNeighbours)
+                newPath = path[:]
+                newPath.append(neighbour)
+                newPath = _generatePath(problemMap, newPath, targetLength)
+                if newPath is None:
+                    usableNeighbours.remove(neighbour)
+            return newPath
+
+        return Unit(_generatePath(problemMap, [0], problemMap.size))
+
+    @staticmethod
