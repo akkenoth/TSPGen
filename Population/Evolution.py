@@ -22,7 +22,7 @@ class Evolution(object):
                 parentB = random.choice(self.population.units)
             child = self.crosser.make(self.problemMap, [parentA, parentB])
             child = self.mutator.make(self.problemMap, child)
-            
+
             # Check whether child is not a duplicate of already existing unit or a child generated before
             duplicate = False
             for unit in children:
@@ -59,14 +59,14 @@ class Evolution(object):
             #self.selector.changeParams()
 
             # print results
-            print("Next generation: ")
-            for unit in newPopulation.units:
-                print(unit.path, " | ", unit.fitness)
-            print()
+            print("\nNext generation: ")
+            for i in range(len(newPopulation.units)):
+                unit = newPopulation.units[i]
+                print("{0}: {1} | {2}".format(i, unit.path, unit.fitness))
 
             self.population = newPopulation
-            trash = input('Next iteration? (Press enter)')
+            input('Next iteration? (Press enter)')
 
-        return self.population.units.bestUnit(0)
+        return self.population
 
 
