@@ -3,11 +3,14 @@ from random import choice
 class Unit(object):
     """docstring for Population/Unit"""
 
-    def __init__(self, problemMap, path):
+    cost = 0
+
+    def __init__(self, problemMap, path, cost = 0):
         #TODO: add parameter checks
 
         self.map = problemMap
         self.path = path
+        self.cost = cost
         self.length = 0.0
         self.fitness = 0.0
 
@@ -26,7 +29,9 @@ class Unit(object):
         If there is no such one, begin anew (random is quite inefficient).
 
         """
+        Unit.cost = 0
         while True:
+            Unit.cost += 1
             currentIndex = 0
             path = [0]
             while len(path) < problemMap.size:
@@ -42,37 +47,83 @@ class Unit(object):
             lastCity = problemMap.cities[path[problemMap.size - 1]]
             if not firstCity.isConnectedTo(lastCity):
                 continue
-            return Unit(problemMap, path)
+            return Unit(problemMap, path, Unit.cost)
 
     @staticmethod
-    def generateUnitDS(problemMap):
+    def generateUnitDSRandom(problemMap):
         """
         Generate an unit by doing random choice depth search.
         Sloooooow.
-        TODO: make it work in finite time by applying some equivalent of alpha-beta for depth-search or something else.
         """
 
+        Unit.cost = 0
         def _generatePath(problemMap, path, targetLength):
+            Unit.cost += 1
+            firstCity = problemMap.cities[path[0]]
             currentCity = problemMap.cities[path[-1]]
 
             if len(path) == targetLength:
-                firstCity = problemMap.cities[path[0]]
                 if firstCity.isConnectedTo(currentCity):
                     return path
                 else:
                     return None
 
+            firstCityNeighbours = [i for i in firstCity.connections if not i in path]
+            if len(firstCityNeighbours) == 1:
+                return _generatePath(problemMap, [firstCityNeighbours[0]] + path, targetLength)
+
             usableNeighbours = [i for i in currentCity.connections if not i in path]
 
             selectedNeighbour = -1
-            newPath = None
             while len(usableNeighbours) > 0:
                 neighbour = choice(usableNeighbours)
                 newPath = path[:]
                 newPath.append(neighbour)
                 newPath = _generatePath(problemMap, newPath, targetLength)
-                if newPath is None:
-                    usableNeighbours.remove(neighbour)
-            return newPath
+                if newPath is not None:
+                    return newPath
+                usableNeighbours.remove(neighbour)
+            return None
 
-        return Unit(_generatePath(problemMap, [0], problemMap.size))
+        path = _generatePath(problemMap, [0], problemMap.size)
+        return Unit(problemMap, path, Unit.cost)
+
+    @staticmethod
+    def generateUnitDSGreedy(problemMap):
+        """
+        Generate an unit by doing greedy depth search.
+
+        """
+
+        Unit.cost = 0
+        def _generatePath(problemMap, path, targetLength):
+            Unit.cost += 1
+            currentCity = problemMap.cities[path[-1]]
+            firstCity = problemMap.cities[path[0]]
+
+            if len(path) == targetLength:
+                if firstCity.isConnectedTo(currentCity):
+                    return path
+                else:
+                    return None
+
+            firstCityNeighbours = [i for i in firstCity.connections if not i in path]
+            if len(firstCityNeighbours) == 1:
+                return _generatePath(problemMap, [firstCityNeighbours[0]] + path, targetLength)
+
+            usableNeighbours = [i for i in currentCity.connections if not i in path]
+            usableNeighbours.sort(key = lambda neighbour: currentCity.getDistanceTo(problemMap.cities[neighbour]))
+
+            selectedNeighbour = -1
+            while len(usableNeighbours) > 0:
+                neighbour = usableNeighbours[0]
+                newPath = path[:]
+                newPath.append(neighbour)
+                newPath = _generatePath(problemMap, newPath, targetLength)
+                if newPath is not None:
+                    return newPath
+                usableNeighbours.remove(neighbour)
+            return None
+
+        path = _generatePath(problemMap, [0], problemMap.size)
+        return Unit(problemMap, path, Unit.cost)
