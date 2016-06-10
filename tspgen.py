@@ -50,11 +50,11 @@ def main():
 	# 	unit = population.units[i]
 	# 	print("{0}: {1} | {2}".format(i, unit.path, unit.fitness))
 
-	# selector = TournamentSelector(6, 2)
-	# crosser = EdgeCrosser()
-	# mutator = DisplacementMutator(0.1)
-	# evolution = Evolution(problemMap, population, selector, crosser, mutator)
-	# evolution.make(10)
+	selector = TournamentSelector(3, 2)
+	crosser = EdgeCrosser(2)
+	mutator = DisplacementMutator(0.2)
+	evolution = Evolution(problemMap, population, selector, crosser, mutator)
+	evolution.make(1000)
 
 	sys.exit(0)
 
