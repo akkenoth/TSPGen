@@ -12,7 +12,7 @@ class City(object):
 		self.connections = []
 
 	def __str__(self):
-		return "%d (%f, %f)" % (self.index, self.positionX, self.positionY)
+		return ("{0} ({1}, {2})".format(self.index, self.positionX, self.positionY))
 
 	def setIndex(self, index):
 		if index < 0:
