@@ -7,15 +7,25 @@ from Population import Unit
 class DisplacementMutator(Mutator):
     """docstring"""
 
-    def __init__(self):
+    def __init__(self, mutationProbability):
         super().__init__()
+        self.mutationProbability = float(mutationProbability)
 
     def make(self, problemMap, unit):
         """
         :param problemMap:
         :return unit:
         """
+        if random.random() < self.mutationProbability:
+            return self.mutate(problemMap, unit)
+        else:
+            return unit
 
+    def mutate(self, problemMap, unit):
+        """
+        :param problemMap:
+        :return unit:
+        """
         pathLength = len(unit.path)
         found = False
         #tries = 0

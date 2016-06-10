@@ -80,7 +80,7 @@ def main():
 
 	selector = TournamentSelector(6, 2)
 	crosser = EdgeCrosser()
-	mutator = DisplacementMutator()
+	mutator = DisplacementMutator(0.1)
 	evolution = Evolution(problemMap, population, selector, crosser, mutator)
 	evolution.make(10)
 
