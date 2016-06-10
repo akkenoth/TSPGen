@@ -5,8 +5,8 @@ import sys
 from Map import Map
 from Operators.Crossing import EdgeCrosser
 from Operators.Mutation import DisplacementMutator, InversionMutator
+from Operators.Selection import TournamentSelector
 from Population import Evolution, Population, Unit
-from Selection import TournamentSelector
 
 def main():
 	problemMap = Map.generateCNN(50, 15)

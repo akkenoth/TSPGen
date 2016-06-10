@@ -1,2 +1,0 @@
-from Selection.Selector import Selector
-from Selection.TournamentSelector import TournamentSelector
