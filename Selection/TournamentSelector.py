@@ -6,42 +6,33 @@ from Population import Population
 class TournamentSelector(Selector):
     """docstring"""
 
-    def __init__(self):
+    def __init__(self, tournamentSize = 4, elitismFactor = 0):
         super().__init__()
+        self.tournamentSize = tournamentSize
+        self.elitismFactor = elitismFactor
 
-    def make(self, population, selectSize, tSize):
+    def make(self, population, newPopulationSize):
         """
-
+        Process population.
+        Winner of a single tournament is excluded from next ones.
         :param population:
-        :param selectSize:
-        :param tSize:
-        :return:
+        :param newPopulationSize:
+        :return: list of selected Units
         """
-        selection = []
-
-        while len(selection) < selectSize:
-            # for now it is possible to pick the same unit more than one time
-            unit = self.make_single(population, tSize)
-            selection.append(unit)
-
-        return selection
-
-    def make_single(self, population, tSize):
-        """
-
-        :param population:
-        :param tSize:
-        :return:
-        """
-        tournament = Population(tSize)
         units = population.units[:]
+        newUnits = []
 
-        try:
-            while len(tournament.units) < tSize:
+        for i in range(self.elitismFactor):
+            elite = population.bestUnit(i)
+            newUnits.append(elite)
+            #TODO: verify if this works
+            units.remove(elite)
+        while len(newUnits) < newPopulationSize and len(units):
+            tournamentPopulation = Population()
+            while tournamentPopulation.size < self.tournamentSize and len(units):
                 unit = random.choice(units)
-                units.remove(unit)
-                tournament.addUnit(unit)
-        except IndexError:
-            raise IndexError("Tournament size set greater than population size.")
-
-        return tournament.bestUnit(0)
+                tournamentPopulation.addUnitAndExpand(unit)
+            selectedUnit = tournamentPopulation.bestUnit()
+            units.remove(selectedUnit)
+            newUnits.append(selectedUnit)
+        return newUnits
