@@ -2,7 +2,7 @@ import random
 
 from Operators.Mutation import Mutator
 from Map import City
-from Population import Unit
+from Population import Population, Unit
 
 class DisplacementMutator(Mutator):
     """docstring"""
@@ -10,6 +10,15 @@ class DisplacementMutator(Mutator):
     def __init__(self, mutationProbability):
         super().__init__()
         self.mutationProbability = float(mutationProbability)
+
+    def applyMutation(self, problemMap, population):
+        newUnits = []
+        for unit in population.units:
+            if random.random() < self.mutationProbability:
+                newUnits.append(self.mutate(problemMap, unit))
+            else:
+                newUnits.append(unit)
+        return Population(population.size, newUnits)
 
     def make(self, problemMap, unit):
         """

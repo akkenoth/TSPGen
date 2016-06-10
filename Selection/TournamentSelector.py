@@ -11,6 +11,9 @@ class TournamentSelector(Selector):
         self.tournamentSize = tournamentSize
         self.elitismFactor = elitismFactor
 
+    def applySelection(self, population, newPopulationSize):
+        return Population(newPopulationSize, self.make(population, newPopulationSize))
+
     def make(self, population, newPopulationSize):
         """
         Process population.

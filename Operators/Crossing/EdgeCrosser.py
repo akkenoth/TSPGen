@@ -1,13 +1,40 @@
 import random
 
 from Operators.Crossing import Crosser
-from Population import Unit
+from Population import Population, Unit
 
 class EdgeCrosser(Crosser):
     """docstring"""
 
-    def __init__(self):
+    def __init__(self, parentsCount):
         super().__init__()
+        self.parentsCount = parentsCount
+
+    def applyCrossing(self, problemMap, population, newPopulationSize):
+        children = []
+        while len(children) < newPopulationSize:
+            parents = []
+            possibleParents = population.units[:]
+            while len(parents) < self.parentsCount:
+                parent = random.choice(possibleParents)
+                possibleParents.remove(parent)
+                parents.append(parent)
+            childUnit = self.make(problemMap, parents)
+            duplicate = False
+            for unit in children:
+                if duplicate:
+                    break
+                if childUnit.path == unit.path:
+                    duplicate = True
+            for unit in population.units:
+                if duplicate:
+                    break
+                if childUnit.path == unit.path:
+                    duplicate = True
+
+            if not duplicate:
+                children.append(childUnit)
+        return Population(newPopulationSize, children)
 
     def make(self, problemMap, units):
         """
