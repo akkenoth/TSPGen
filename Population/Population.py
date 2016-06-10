@@ -7,13 +7,14 @@ class Population(object):
     mutationRate = 0.1
 
     def __init__(self, size, units = None):
+        self.size = size
         if units is None:
             self.units = []
+            self.sorted = False
         else:
             self.units = units
-
-        self.size = size
-        self.sorted = False
+            self.units.sort(key=lambda u: u.fitness, reverse=True)
+            self.sorted = True;
 
     def addUnit(self, unit):
         if len(self.units) < self.size:
