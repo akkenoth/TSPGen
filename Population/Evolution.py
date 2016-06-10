@@ -22,7 +22,11 @@ class Evolution(object):
             parents = self.selector.make(self.population, 2, 4)
             child = self.crosser.make(self.problemMap, parents)
             child = self.mutator.make(self.problemMap, child)
-            children.append(child)
+            
+            # Checks if child is in children and population.units lists
+            # Apparently this condition does not work - anyone know why?
+            if (not [x for x in children if x.path == child.path]) and (not [x for x in self.population.units if x.path == child.path]):
+                children.append(child)
 
         # select new units
         sum = Population(2 * self.population.size, self.population.units + children)
