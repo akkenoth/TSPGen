@@ -5,19 +5,21 @@ import sys
 from Map import Map
 from Operators.Crossing import EdgeCrosser
 from Operators.Mutation import DisplacementMutator, InversionMutator
-from Population import Population
-from Population import Unit
+from Population import Evolution, Population, Unit
 from Selection import TournamentSelector
 
 def main():
 	problemMap = Map.generateCNN(50, 15)
+	print("Generated %d cities:" % problemMap.size)
+	for city in problemMap.cities:
+		print("City " + str(city) + ", connections to: " + str(city.connections))
+	
+	"""
 	problemMap2 = Map.readFromFile("samples/sampleMap.json")
-	# print("Generated %d cities:" % problemMap.size)
-	# for city in problemMap.cities:
-	# 	print("City " + str(city) + ", connections to: " + str(city.connections))
-	# print("Read %d cities from file:" % problemMap2.size)
-	# for city in problemMap2.cities:
-	# 	print("City " + str(city) + ", connections to: " + str(city.connections))
+	print("Read %d cities from file:" % problemMap2.size)
+	for city in problemMap2.cities:
+		print("City " + str(city) + ", connections to: " + str(city.connections))
+	"""
 
 	"""
 	print("Map1:")
@@ -65,28 +67,22 @@ def main():
 	print(unit10.path)
 	"""
 	
-	for city in problemMap.cities:
-		print("City " + str(city) + ", connections to: " + str(city.connections))
-
 	units = []
 	populationSize = 10
 	while len(units) < populationSize:
-		units.append(Unit.generateUnit(problemMap))
-
+		units.append(Unit.generateUnitRand(problemMap))
 	population = Population(populationSize, units)
 
 	print("Initial population: ")
-	for unit in population.units:
-		print(unit.path, " | ", unit.fitness)
-	print()
+	for i in range(len(population.units)):
+		unit = population.units[i]
+		print("{0}: {1} | {2}".format(i, unit.path, unit.fitness))
 
-	selector = TournamentSelector()
+	selector = TournamentSelector(6, 2)
 	crosser = EdgeCrosser()
 	mutator = DisplacementMutator()
 	evolution = Evolution(problemMap, population, selector, crosser, mutator)
-
 	evolution.make(10)
-
 
 	sys.exit(0)
 
