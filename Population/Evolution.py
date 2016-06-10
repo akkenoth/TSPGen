@@ -5,40 +5,65 @@ from Population import Population
 class Evolution(object):
     """docstring for Evolution"""
 
-    @staticmethod
-    def evolve(problemMap, population, selector, crosser, mutator):
-        """
+    def __init__(self, problemMap, population, selector, crosser, mutator):
+        self.problemMap = problemMap
+        self.population = population
+        self.selector = selector
+        self.crosser = crosser
+        self.mutator = mutator
 
-                :param problemMap:
-                :param population:
-                :param selector:
-                :param crosser:
-                :param mutator:
-                :return:
-        """
+    def evolve(self):
 
         children = []
         newUnits = []
 
         # select parents, perform crossing and mutate child
-        while len(children) < population.size:
-            parents = selector.make(population, 4, 8)
-            child = crosser.make(problemMap, parents)
-            child = mutator.make(problemMap, child)
+        while len(children) < self.population.size:
+            parents = self.selector.make(self.population, 2, 4)
+            child = self.crosser.make(self.problemMap, parents)
+            child = self.mutator.make(self.problemMap, child)
             children.append(child)
 
         # select new units
-        sum = population + children
-        while len(newUnits) < len(population):
-            newUnit = selector.make(sum, 4, 8)
-            newUnits.append(newUnit)
+        sum = Population(2 * self.population.size, self.population.units + children)
+        while len(newUnits) < self.population.size:
+            newUnits += self.selector.make(sum, 3, 6)
 
         # if elitism is enabled create space and save the best unit
-        if population.elitism:
-            best = population.bestUnit(0)
+        if self.mutator.elitism:
+            best = self.population.bestUnit(0)
             removed = random.choice(sum)
-            sum.remove(removed)
-            sum.append(best)
+            newUnits.remove(removed)
+            newUnits.append(best)
 
-        return Population(len(population), newUnits)
+
+        return Population(self.population.size, newUnits[:self.population.size])
+
+
+    def make(self, iters):
+        """
+
+                        :param iters:
+                        :return:
+        """
+
+        for i in range(iters):
+            # evolve one generation
+            newPopulation = self.evolve()
+
+            # change options
+            #self.mutator.changeParams()
+            #self.selector.changeParams()
+
+            # print results
+            print("Next generation: ")
+            for unit in newPopulation.units:
+                print(unit.path, " | ", unit.fitness)
+            print()
+
+            self.population = newPopulation
+            trash = input('Next iteration? (Press enter)')
+
+        return self.population.units.bestUnit(0)
+
 
