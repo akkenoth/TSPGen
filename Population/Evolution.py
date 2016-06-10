@@ -1,5 +1,3 @@
-import random
-
 from Population.Population import Population
 
 class Evolution(object):
@@ -13,37 +11,10 @@ class Evolution(object):
         self.mutator = mutator
 
     def evolve(self):
-        # Crossing and mutation
-        children = []
-        while len(children) < self.population.size:
-            parentA = random.choice(self.population.units)
-            parentB = parentA
-            while parentB == parentA:
-                parentB = random.choice(self.population.units)
-            child = self.crosser.make(self.problemMap, [parentA, parentB])
-            child = self.mutator.make(self.problemMap, child)
-
-            # Check whether child is not a duplicate of already existing unit or a child generated before
-            duplicate = False
-            for unit in children:
-                if duplicate:
-                    break
-                if child.path == unit.path:
-                    duplicate = True
-            for unit in self.population.units:
-                if duplicate:
-                    break
-                if child.path == unit.path:
-                    duplicate = True
-
-            if not duplicate:
-                children.append(child)
-
-        # Selection
-        sumPopulation = Population(2 * self.population.size, self.population.units + children)
-        newUnits = self.selector.make(sumPopulation, self.population.size)
-
-        return Population(self.population.size, newUnits[:self.population.size])
+        childrenPopulation = self.crosser.applyCrossing(self.problemMap, self.population, self.population.size)
+        childrenPopulation = self.mutator.applyMutation(self.problemMap, childrenPopulation)
+        sumPopulation = Population(2 * self.population.size, self.population.units + childrenPopulation.units)
+        return self.selector.applySelection(sumPopulation, self.population.size)
 
     def make(self, iterations):
         """
@@ -59,14 +30,12 @@ class Evolution(object):
             #self.selector.changeParams()
 
             # print results
-            print("\nNext generation: ")
+            print("\nGeneration {0}: ".format(i+1))
             for i in range(len(newPopulation.units)):
                 unit = newPopulation.units[i]
-                print("{0}: {1} | {2}".format(i, unit.path, unit.fitness))
+                print("{0}: {1}".format(i, unit.fitness))
 
             self.population = newPopulation
-            input('Next iteration? (Press enter)')
+            input('Press enter for next generation...')
 
         return self.population
-
-
