@@ -1,6 +1,6 @@
 import random
 
-from Population import Population
+from Population.Population import Population
 
 class Evolution(object):
     """docstring for Evolution"""
@@ -13,45 +13,44 @@ class Evolution(object):
         self.mutator = mutator
 
     def evolve(self):
-
+        # Crossing and mutation
         children = []
-        newUnits = []
-
-        # select parents, perform crossing and mutate child
         while len(children) < self.population.size:
-            parents = self.selector.make(self.population, 2, 4)
-            child = self.crosser.make(self.problemMap, parents)
+            parentA = random.choice(self.population.units)
+            parentB = parentA
+            while parentB == parentA:
+                parentB = random.choice(self.population.units)
+            child = self.crosser.make(self.problemMap, [parentA, parentB])
             child = self.mutator.make(self.problemMap, child)
             
-            # Checks if child is in children and population.units lists
-            # Apparently this condition does not work - anyone know why?
-            if (not [x for x in children if x.path == child.path]) and (not [x for x in self.population.units if x.path == child.path]):
+            # Check whether child is not a duplicate of already existing unit or a child generated before
+            duplicate = False
+            for unit in children:
+                if duplicate:
+                    break
+                if child.path == unit.path:
+                    duplicate = True
+            for unit in self.population.units:
+                if duplicate:
+                    break
+                if child.path == unit.path:
+                    duplicate = True
+
+            if not duplicate:
                 children.append(child)
 
-        # select new units
-        sum = Population(2 * self.population.size, self.population.units + children)
-        while len(newUnits) < self.population.size:
-            newUnits += self.selector.make(sum, 3, 6)
-
-        # if elitism is enabled create space and save the best unit
-        if self.mutator.elitism:
-            best = self.population.bestUnit(0)
-            removed = random.choice(sum)
-            newUnits.remove(removed)
-            newUnits.append(best)
-
+        # Selection
+        sumPopulation = Population(2 * self.population.size, self.population.units + children)
+        newUnits = self.selector.make(sumPopulation, self.population.size)
 
         return Population(self.population.size, newUnits[:self.population.size])
 
-
-    def make(self, iters):
+    def make(self, iterations):
         """
-
-                        :param iters:
-                        :return:
+        :param iterations:
+        :return:
         """
-
-        for i in range(iters):
+        for i in range(iterations):
             # evolve one generation
             newPopulation = self.evolve()
 
