@@ -45,13 +45,14 @@ def main():
 		units.append(Unit.generateUnitRand(problemMap))
 	population = Population(10, units)
 
-	# print("Initial population: ")
-	# for i in range(len(population.units)):
-	# 	unit = population.units[i]
-	# 	print("{0}: {1} | {2}".format(i, unit.path, unit.fitness))
+	print("Initial population: ")
+	for i in range(len(population.units)):
+		unit = population.units[i]
+		print("{0}: {1}".format(i, unit.fitness))
 
 	selector = TournamentSelector(3, 2)
-	crosser = EdgeCrosser(2)
+	crosser = EdgeCrosser(2, False)
+	# crosser = EdgeCrosser(2, True)
 	mutator = DisplacementMutator(0.2)
 	evolution = Evolution(problemMap, population, selector, crosser, mutator)
 	evolution.make(1000)
