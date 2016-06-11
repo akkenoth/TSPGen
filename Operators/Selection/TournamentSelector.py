@@ -1,6 +1,6 @@
 import random
 
-from Selection import Selector
+from Operators.Selection import Selector
 from Population import Population
 
 class TournamentSelector(Selector):
