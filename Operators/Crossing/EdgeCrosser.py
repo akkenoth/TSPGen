@@ -70,11 +70,11 @@ class EdgeCrosser(Crosser):
 
         EdgeCrosser.cost = 0
         while True:
+            EdgeCrosser.cost += 1
             src = 0
             path = []
 
             while len(path) != len(adjList):
-                EdgeCrosser.cost += 1
                 path.append(src)
 
                 srcList = adjList[src][:]
