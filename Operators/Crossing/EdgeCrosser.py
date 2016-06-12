@@ -14,7 +14,7 @@ class EdgeCrosser(Crosser):
         self.parentsCount = parentsCount
         self.useDepthSearch = useDepthSearch
 
-    def applyCrossing(self, problemMap, population, newPopulationSize):
+    def applyCrossing(self, problemMap, population, newPopulationSize, mutator = None):
         children = []
         while len(children) < newPopulationSize:
             parents = []
@@ -24,6 +24,10 @@ class EdgeCrosser(Crosser):
                 possibleParents.remove(parent)
                 parents.append(parent)
             childUnit = self.make(problemMap, parents)
+            
+            if mutator is not None:
+                childUnit = mutator.make(problemMap, childUnit)
+
             duplicate = False
             for unit in children:
                 if duplicate:

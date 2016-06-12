@@ -11,8 +11,8 @@ class Evolution(object):
         self.mutator = mutator
 
     def evolve(self):
-        childrenPopulation = self.crosser.applyCrossing(self.problemMap, self.population, self.population.size)
-        childrenPopulation = self.mutator.applyMutation(self.problemMap, childrenPopulation)
+        childrenPopulation = self.crosser.applyCrossing(self.problemMap, self.population, self.population.size, self.mutator)
+        # childrenPopulation = self.mutator.applyMutation(self.problemMap, childrenPopulation)
         sumPopulation = Population(2 * self.population.size, self.population.units + childrenPopulation.units)
         return self.selector.applySelection(sumPopulation, self.population.size)
 
