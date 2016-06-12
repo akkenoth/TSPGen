@@ -34,4 +34,4 @@ class MapGenerator(QThread):
                 self.mapGenerationFailed.emit(e)
                 return
 
-        self.mapGenerated.emit(newMap)   
+        self.mapGenerated.emit(newMap)
