@@ -46,7 +46,7 @@ class Ui_MapGenerationDialog(object):
 		self.spinBoxConnections = QtWidgets.QSpinBox(MapGenerationDialog)
 		self.spinBoxConnections.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
 		self.spinBoxConnections.setMinimum(3)
-		self.spinBoxConnections.setMaximum(98)
+		self.spinBoxConnections.setMaximum(39)
 		self.spinBoxConnections.setProperty("value", 10)
 		self.spinBoxConnections.setObjectName("spinBoxConnections")
 		self.horizontalLayout_2.addWidget(self.spinBoxConnections)
