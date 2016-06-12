@@ -62,13 +62,16 @@ class Map(object):
 				data = json.load(data_raw)
 		except IOError as error:
 			print("[ERROR] Cannot open file {0} (IOError)".format(filename))
+			raise error
 			return None
 		# except json.JSONDecodeError as error:
 		except ValueError as error:
 			print("[ERROR] Cannot parse file {0} (JSONDecodeError)".format(filename))
+			raise ValueError("Cannot parse file")
 			return None
 		if not data["cities"] or not data["size"]:
 			print("[ERROR] Invalid structure (1).")
+			raise ValueError("Invalid structure")
 			return None
 		newMap = Map()
 		newMapSize = int(data["size"])
@@ -82,8 +85,9 @@ class Map(object):
 					if neighbour < newMapSize:
 						newCity.connections.append(int(c))
 				newMap.addCity(newCity)
-		except KeyError:
+		except KeyError as error:
 			print("[ERROR] Invalid structure (2).")
+			raise ValueError("Invalid structure")
 			return None
 		return newMap
 
