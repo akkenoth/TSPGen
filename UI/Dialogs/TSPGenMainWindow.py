@@ -26,19 +26,17 @@ class TSPGenMainWindow(QMainWindow):
         # Setup asynchronous objects
         self.mapGenerator = MapGenerator(self)
 
-        # Setup UI actions - signals/slots
-        self.setupUIActions()
-
         # Map painter
-        self.mapScene = QGraphicsScene(self)
-        self.ui.graphicsViewMap.setScene(self.mapScene)
         displayCities = self.ui.checkBoxDisplayCities.isChecked()
         displayConnections = self.ui.checkBoxDisplayConnections.isChecked()
         displayBestUnit = self.ui.checkBoxDisplayBestUnit.isChecked()
-        self.mapPainter = MapPainter(self.mapScene, displayCities, displayConnections, displayBestUnit)
+        self.mapPainter = MapPainter(self, self.ui.graphicsViewMap, displayCities, displayConnections, displayBestUnit)
 
         # Refresh display elements
         self.refreshStatusbarMessage()
+
+        # Setup UI actions - signals/slots
+        self.setupUIActions()
 
     def setupUIActions(self):
         # Menu
@@ -53,6 +51,9 @@ class TSPGenMainWindow(QMainWindow):
         # Map Generator
         self.mapGenerator.mapGenerated.connect(self.mapGenerated)
         self.mapGenerator.mapGenerationFailed.connect(self.mapGenerationFailed)
+
+        # Map View
+        # self.ui.graphicsViewMap.rubberBandChanged.connect(self.mapPainter.repaint)
 
     def importMap(self):
         filename = QFileDialog.getOpenFileName(self, "TSPGen - load problem map", filter = "JSON File (*.json)")
