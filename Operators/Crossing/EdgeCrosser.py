@@ -57,10 +57,10 @@ class EdgeCrosser(Crosser):
         path = None
         if self.useDepthSearch:
             path = self.makePathDS(adjList)
-            print("Cost: {0}".format(EdgeCrosser.cost))
+            # print("Cost: {0}".format(EdgeCrosser.cost))
         else:
             path = self.makePathRand(adjList)
-            print("Cost: {0}".format(EdgeCrosser.cost))
+            # print("Cost: {0}".format(EdgeCrosser.cost))
 
         ##TODO: verify obtained path
 
