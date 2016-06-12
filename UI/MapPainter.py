@@ -68,8 +68,8 @@ class MapPainter(object):
 
         if self.displayBestUnit and self.bestUnit is not None:
             bestUnitBrush = QBrush(QColor(255, 0, 0), Qt.SolidPattern)
-            bestUnitPen = QPen(connectionBrush, 2.0)
-            for i in range(-1, len(self.bestUnit.path)):
+            bestUnitPen = QPen(bestUnitBrush, 2.0)
+            for i in range(-1, len(self.bestUnit.path)-1):
                 currCity = self.problemMap.cities[self.bestUnit.path[i]]
                 nextCity = self.problemMap.cities[self.bestUnit.path[i+1]]
                 x = width * currCity.positionX
