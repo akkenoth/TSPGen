@@ -77,15 +77,16 @@
     <addaction name="actionGeneratePopulation"/>
     <addaction name="actionDisplayPopulation"/>
    </widget>
-   <widget class="QMenu" name="menuGeneration">
+   <widget class="QMenu" name="menuEvolution">
     <property name="title">
-     <string>Generation</string>
+     <string>Evolution</string>
     </property>
+    <addaction name="actionSetParameters"/>
     <addaction name="actionProcessGeneration"/>
    </widget>
    <addaction name="menuMap"/>
    <addaction name="menuPopulation"/>
-   <addaction name="menuGeneration"/>
+   <addaction name="menuEvolution"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="sizeGripEnabled">
@@ -114,10 +115,15 @@
   </action>
   <action name="actionProcessGeneration">
    <property name="text">
-    <string>Process</string>
+    <string>Process generation</string>
    </property>
    <property name="shortcut">
     <string>F9</string>
+   </property>
+  </action>
+  <action name="actionSetParameters">
+   <property name="text">
+    <string>Set parameters...</string>
    </property>
   </action>
  </widget>
