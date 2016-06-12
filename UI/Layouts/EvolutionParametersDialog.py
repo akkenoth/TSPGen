@@ -26,6 +26,8 @@ class Ui_EvolutionParametersDialog(object):
 		spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
 		self.horizontalLayout.addItem(spacerItem)
 		self.spinBoxParentCount = QtWidgets.QSpinBox(self.groupBox)
+		self.spinBoxParentCount.setMinimum(2)
+		self.spinBoxParentCount.setProperty("value", 4)
 		self.spinBoxParentCount.setObjectName("spinBoxParentCount")
 		self.horizontalLayout.addWidget(self.spinBoxParentCount)
 		self.verticalLayout.addLayout(self.horizontalLayout)

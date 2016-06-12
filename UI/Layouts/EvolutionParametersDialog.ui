@@ -43,7 +43,14 @@
          </spacer>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinBoxParentCount"/>
+         <widget class="QSpinBox" name="spinBoxParentCount">
+          <property name="minimum">
+           <number>2</number>
+          </property>
+          <property name="value">
+           <number>4</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
