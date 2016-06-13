@@ -9,5 +9,9 @@ class Mutator(ABC):
         pass
 
     @abstractmethod
+    def applyMutation(self, problemMap, population):
+        pass
+
+    @abstractmethod
     def make(self, problemMap, unit):
         pass
