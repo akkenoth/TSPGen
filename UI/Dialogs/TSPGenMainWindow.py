@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QLabel, QGraphicsScene
 
 from UI import MapPainter
-from UI.Dialogs import EvolutionParametersDialog, MapGenerationDialog, PopulationGenerationDialog
+from UI.Dialogs import EvolutionParametersDialog, MapGenerationDialog, PopulationGenerationDialog, PopulationListDialog
 from UI.Layouts.TSPGenMainWindow import Ui_TSPGenMainWindow
 from UI.Wrappers import EvolutionProcessor, MapGenerator, PopulationGenerator
 
@@ -47,7 +47,7 @@ class TSPGenMainWindow(QMainWindow):
         self.ui.actionImportMap.triggered.connect(self.importMap)
         self.ui.actionGenerateMap.triggered.connect(self.displayMapGenerationDialog)
         self.ui.actionGeneratePopulation.triggered.connect(self.displayPopulationGenerationDialog)
-        ### population list
+        self.ui.actionDisplayPopulation.triggered.connect(self.displayPopulationList)
         self.ui.actionSetParameters.triggered.connect(self.displayEvolutionParametersDialog)
         self.ui.actionProcessGeneration.triggered.connect(self.processGeneration)
         
@@ -95,12 +95,16 @@ class TSPGenMainWindow(QMainWindow):
         self.refreshStatusbarMessage()
         self.populationGenerator.start()
 
+    def displayPopulationList(self):
+        populationListDialog = PopulationListDialog(self, self.population)
+        populationListDialog.exec_()
+
     def displayEvolutionParametersDialog(self):
-        parentCount, depthSearch, probability, elitismFactor, tournamentSize, statusOK = EvolutionParametersDialog.getEvolutionParameters(self)
+        parentCount, depthSearch, mutationMethod, probability, elitismFactor, tournamentSize, statusOK = EvolutionParametersDialog.getEvolutionParameters(self)
         if not statusOK:
             return
         self.evolutionProcessor.setCrosserParameters(parentCount, depthSearch)
-        self.evolutionProcessor.setMutatorParameters(probability)
+        self.evolutionProcessor.setMutatorParameters(mutationMethod, probability)
         self.evolutionProcessor.setSelectorParameters(tournamentSize, elitismFactor)
 
     def processGeneration(self):
