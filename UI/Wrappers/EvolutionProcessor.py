@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QThread, pyqtSignal
 
 from Operators.Crossing import EdgeCrosser
-from Operators.Mutation import DisplacementMutator
+from Operators.Mutation import DisplacementMutator, InversionMutator
 from Operators.Selection import TournamentSelector
 from Population import Evolution, Population
 
@@ -27,8 +27,13 @@ class EvolutionProcessor(QThread):
     def setCrosserParameters(self, parentsCount, useDepthSearch):
         self.crosser = EdgeCrosser(parentsCount, useDepthSearch)
 
-    def setMutatorParameters(self, probability):
-        self.mutator = DisplacementMutator(probability)
+    def setMutatorParameters(self, mutationMethod, probability):
+        if mutationMethod == "Displacement":
+            self.mutator = DisplacementMutator(probability)
+        elif mutationMethod == "Inversion":
+            self.mutator = InversionMutator(probability)
+        else:
+            self.mutator = None
 
     def setSelectorParameters(self, tournamentSize, elitismFactor):
         self.selector = TournamentSelector(tournamentSize, elitismFactor)
