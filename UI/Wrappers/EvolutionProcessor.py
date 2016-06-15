@@ -39,6 +39,16 @@ class EvolutionProcessor(QThread):
         self.selector = TournamentSelector(tournamentSize, elitismFactor)
 
     def run(self):
+        if self.problemMap is None:
+            self.generationProcessingFailed.emit(Exception("No problem map"))
+            return
+        if self.population is None:
+            self.generationProcessingFailed.emit(Exception("No population"))
+            return
+        if self.selector is None or self.crosser is None or self.mutator is None:
+            self.generationProcessingFailed.emit(Exception("Parameters not set"))
+            return
+
         evolution = Evolution(self.problemMap, self.population, self.selector, self.crosser, self.mutator)
         try:
             newPopulation = evolution.evolve()
