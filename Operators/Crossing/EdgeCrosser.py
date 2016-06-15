@@ -24,7 +24,7 @@ class EdgeCrosser(Crosser):
                 possibleParents.remove(parent)
                 parents.append(parent)
             childUnit = self.make(problemMap, parents)
-            
+
             if mutator is not None:
                 childUnit = mutator.make(problemMap, childUnit)
 
@@ -149,5 +149,9 @@ class EdgeCrosser(Crosser):
                     adjList[index].append(prevIndex)
                 if nextIndex not in adjList[index]:
                     adjList[index].append(nextIndex)
+
+        for index in range(problemMap.size):
+            while index in adjList[index]:
+                adjList[index].remove(index)
 
         return adjList
