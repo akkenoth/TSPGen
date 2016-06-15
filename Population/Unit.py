@@ -47,7 +47,11 @@ class Unit(object):
             lastCity = problemMap.cities[path[problemMap.size - 1]]
             if not firstCity.isConnectedTo(lastCity):
                 continue
-            return Unit(problemMap, path, Unit.cost)
+            unit = Unit(problemMap, path, Unit.cost)
+            if(unit.verify()):
+                return unit
+            else:
+                print("Generated invalid unit!!!")
 
     @staticmethod
     def generateUnitDSRandom(problemMap):
@@ -127,3 +131,17 @@ class Unit(object):
 
         path = _generatePath(problemMap, [0], problemMap.size)
         return Unit(problemMap, path, Unit.cost)
+
+    @staticmethod
+    def verifyUnit(unit, problemMap):
+        if len(unit.path) != problemMap.size:
+            return False
+
+        visited = [ False for i in range(problemMap.size) ]
+        for c in unit.path:
+            visited[c] = True
+
+        return (False not in visited)
+
+    def verify(self):
+        return Unit.verifyUnit(self, self.map)
